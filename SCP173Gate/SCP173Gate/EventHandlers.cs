@@ -140,6 +140,10 @@ namespace SCP173Gate
                         ev.ReplyMessage = "Set gate status (open, close, lock, unlock)";
                     }
                     break;
+                case "getpos":
+                    ev.IsAllowed = false;
+                    ev.ReplyMessage = $"{ev.Sender.Position} {Plugin.SCP173HallWayCameraPosition}";
+                    break;
                     //Dubug things
                     /*
                 case "getpos":

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Exiled.API.Features;
 
 namespace CustomEscape
 {

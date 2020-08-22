@@ -37,9 +37,16 @@ namespace Bleeding
             Exiled.Events.Handlers.Player.Left += EventHandlers.OnLeft;
             Exiled.Events.Handlers.Player.Hurting += EventHandlers.OnHurting;
             Exiled.Events.Handlers.Player.Died += EventHandlers.OnDied;
-            Exiled.Events.Handlers.Player.Spawning += EventHandlers.OnSpawning;
+            Exiled.Events.Handlers.Player.ChangingRole += EventHandlers.OnChangingRole;
+            Exiled.Events.Handlers.Player.MedicalItemUsed += EventHandlers.OnMedicalItemUsed;
+            Exiled.Events.Handlers.Player.Interacted += EventHandlers.OnInteracted;
+            Exiled.Events.Handlers.Player.ItemDropped += EventHandlers.OnItemDropped;
+            Exiled.Events.Handlers.Player.ChangingItem += EventHandlers.OnChangingItem;
+            Exiled.Events.Handlers.Player.Handcuffing += EventHandlers.OnHandcuffing;
+            Exiled.Events.Handlers.Player.PickingUpItem += EventHandlers.OnPickingUpItem;
 
             Exiled.Events.Handlers.Server.SendingRemoteAdminCommand += EventHandlers.OnSendingRemoteAdminCommand;
+            Exiled.Events.Handlers.Server.SendingConsoleCommand += EventHandlers.OnSendingConsoleCommand;
         }
 
         public override void OnDisabled()
@@ -48,9 +55,16 @@ namespace Bleeding
             Exiled.Events.Handlers.Player.Left -= EventHandlers.OnLeft;
             Exiled.Events.Handlers.Player.Hurting -= EventHandlers.OnHurting;
             Exiled.Events.Handlers.Player.Died -= EventHandlers.OnDied;
-            Exiled.Events.Handlers.Player.Spawning -= EventHandlers.OnSpawning;
+            Exiled.Events.Handlers.Player.ChangingRole -= EventHandlers.OnChangingRole;
+            Exiled.Events.Handlers.Player.MedicalItemUsed -= EventHandlers.OnMedicalItemUsed;
+            Exiled.Events.Handlers.Player.Interacted -= EventHandlers.OnInteracted;
+            Exiled.Events.Handlers.Player.ItemDropped -= EventHandlers.OnItemDropped;
+            Exiled.Events.Handlers.Player.ChangingItem -= EventHandlers.OnChangingItem;
+            Exiled.Events.Handlers.Player.Handcuffing -= EventHandlers.OnHandcuffing;
+            Exiled.Events.Handlers.Player.PickingUpItem -= EventHandlers.OnPickingUpItem;
 
             Exiled.Events.Handlers.Server.SendingRemoteAdminCommand -= EventHandlers.OnSendingRemoteAdminCommand;
+            Exiled.Events.Handlers.Server.SendingConsoleCommand -= EventHandlers.OnSendingConsoleCommand;
 
             EventHandlers = null;
         }

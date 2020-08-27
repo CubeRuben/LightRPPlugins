@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Exiled.Events.EventArgs;
 
 namespace VehicleCall
 {
@@ -13,6 +9,23 @@ namespace VehicleCall
         public EventHandlers(VehicleCallPlugin plugin) 
         {
             Plugin = plugin;
+        }
+
+        public void OnSendingRemoteAdminCommand(SendingRemoteAdminCommandEventArgs ev) 
+        {
+            switch (ev.Name) 
+            {
+                case "heli":
+                    ev.IsAllowed = false;
+                    Plugin.CallHelicopter();
+                    ev.ReplyMessage = "Work";
+                    break;
+                case "van":
+                    ev.IsAllowed = false;
+                    Plugin.CallCar();
+                    ev.ReplyMessage = "Work";
+                    break;
+            }
         }
 
 

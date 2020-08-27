@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Interfaces;
 
-namespace VehicleCall
+namespace LightSystem
 {
     public class Config : IConfig
     {

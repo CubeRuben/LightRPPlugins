@@ -171,7 +171,16 @@ namespace Bleeding
                 if (PlayerHealth.CurrentHighestBleedingType < BleedingType)
                 {
                     PlayerHealth.Player.ClearBroadcasts();
-                    PlayerHealth.Player.SetRank(PlayerHealth.Player.Group.BadgeText, PlayerHealth.Player.Group);
+                    if (PlayerHealth.Player.Group != null)
+                    {
+                        PlayerHealth.Player.RankName = PlayerHealth.Player.Group.BadgeText;
+                        PlayerHealth.Player.RankColor = PlayerHealth.Player.Group.BadgeColor;
+                    }
+                    else 
+                    {
+                        PlayerHealth.Player.RankName = "";
+                        PlayerHealth.Player.RankColor = "";
+                    }
                 }
 
                 Timing.KillCoroutines(CoroutineHandle);
@@ -215,6 +224,11 @@ namespace Bleeding
 
         public bool AddBleeding(BleedingTypes bleedingType, float chance = 100, float damage = 0, float time = 0, float interval = 0, float bloodSize = 0, float bloodSpawnRate = 0)
         {
+            if (Player.Role == RoleType.Spectator) 
+            {
+                return false;
+            }
+
             if (Random.Next(0, 100) < chance)
             {
                 Bleedings.Add(new Bleeding(bleedingType, this, damage, time, interval, bloodSize, bloodSpawnRate));
@@ -265,7 +279,7 @@ namespace Bleeding
 
         public void OnHurting(DamageTypes.DamageType damageType)
         {
-            if ((Player.Team == Team.SCP) && (Player.Role != RoleType.Scp049) && (Player.Role != RoleType.Scp93953) && (Player.Role != RoleType.Scp93989))
+            if ((Player.Team == Team.SCP)/* && (Player.Role != RoleType.Scp049) && (Player.Role != RoleType.Scp93953) && (Player.Role != RoleType.Scp93989)*/)
             {
                 return;
             }
@@ -273,10 +287,10 @@ namespace Bleeding
 
             bool flag = false;
 
-            if ((Player.Role == RoleType.Scp93953) || (Player.Role == RoleType.Scp93989))
+            /*if ((Player.Role == RoleType.Scp93953) || (Player.Role == RoleType.Scp93989))
             {
                 goto SCP939Immune;
-            }
+            }*/
 
             //Расчитываем артериальное
             switch (damageType.name)
@@ -324,7 +338,7 @@ namespace Bleeding
 
             if (flag)
                 return;
-            SCP939Immune:
+           // SCP939Immune:
             //Расчитываем обычное
             switch (damageType.name)
             {

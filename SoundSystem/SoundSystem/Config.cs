@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Interfaces;
 
-namespace VehicleCall
+namespace SoundSystem
 {
     public class Config : IConfig
     {

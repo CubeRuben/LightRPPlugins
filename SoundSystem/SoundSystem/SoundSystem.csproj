@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B2BB71D3-2DCE-47FB-B30B-8C6184E75FDB}</ProjectGuid>
+    <ProjectGuid>{8B0C86C3-3511-4C2A-A796-8D61923E3A61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VehicleCall</RootNamespace>
-    <AssemblyName>VehicleCall</AssemblyName>
+    <RootNamespace>SoundSystem</RootNamespace>
+    <AssemblyName>SoundSystem</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

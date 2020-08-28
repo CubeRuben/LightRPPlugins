@@ -9,6 +9,7 @@ var ezTable;
 let MapIsMoving;
 let MousePos = { x: 0, y: 0 };
 
+window.ondragstart = function() { return false; }
 
 for (let i = 0; i < maps.length; i++) {
 

@@ -30,18 +30,17 @@ namespace LightSystem
         {
             if (time == 0)
             {
-                if (lightState)
-                {
-                    component.ServerFlickerLights(0);
-                }
-                else
+                if (!lightState)
                 {
                     component.ServerFlickerLights(float.MaxValue);
                 }
             }
             else 
             {
-                component.ServerFlickerLights(time);
+                if (component.FlickerDuration < 1)
+                {
+                    component.ServerFlickerLights(time);
+                }
             }
         }
 
@@ -77,13 +76,10 @@ namespace LightSystem
                         case "room":
                             Player player = null;
 
-                            if (ev.Arguments.Count < 4) 
+                            if (ev.Arguments.Count > 2) 
                             {
                                 player = Player.Get(ev.Arguments[2]);
-                            }
-
-                            if (player == null) 
-                            {
+                            } else {
                                 player = ev.Sender;
                             }
 
@@ -106,13 +102,16 @@ namespace LightSystem
                             break;
                         case "lcz":
                             SwitchLight(Plugin.LCZ, lightState, time);
+                            ev.ReplyMessage = "Done";
                             break;
                         case "hcz":
                             SwitchLight(Plugin.HCZ, lightState, time);
+                            ev.ReplyMessage = "Done";
                             break;
                         case "adm":
                         case "ez":
                             SwitchLight(Plugin.EZ, lightState, time);
+                            ev.ReplyMessage = "Done";
                             break;
                     }
                     break;

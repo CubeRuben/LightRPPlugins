@@ -2,7 +2,8 @@
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using MEC;
-using System.Runtime.InteropServices.WindowsRuntime;
+
+using System;
 
 namespace BanWebhook
 {
@@ -35,19 +36,9 @@ namespace BanWebhook
                 return;
             }
 
-            
-            Log.Info(ev.Details.Issuer);
-            /*string linkToAdmin = "";
-
-            if (.EndsWith("@steam"))
-            {
-                linkToUser = $"https://steamcommunity.com/profiles/{id.Replace("@steam", "")}/";
-            }*/
-
             Player admin = Player.Get(ev.Details.Issuer);
 
-
-            string message = "{\"embeds\":[{\"title\":\"Игрок забанен\",\"fields\":[{\"name\":\"Администратор\",\"value\":\"[" + admin.Nickname + "](" + GetSteamLink(admin.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Details.Reason == "" ? "Не указано" : ev.Details.Reason) + "\"}]}]}";
+            string message = "{\"embeds\":[{\"title\":\"Игрок забанен\",\"fields\":[{\"name\":\"Администратор\",\"value\":\"[" + admin.Nickname + "](" + GetSteamLink(admin.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Details.Reason == "" ? "Не указано" : ev.Details.Reason) + "\"},{\"name\":\"Дата и время бана\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"},{\"name\":\"Дата и время окончания бана\",\"value\":\"" + DateTime.FromBinary(ev.Details.Expires).AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
 
             Log.Info(message);
             

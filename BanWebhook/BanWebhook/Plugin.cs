@@ -57,20 +57,6 @@ namespace BanWebhook
             Stream dataStream = request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             dataStream.Close();
-
-
-            WebResponse response = request.GetResponse();
-            Log.Info(((HttpWebResponse)response).StatusDescription);
-
-            using (dataStream = response.GetResponseStream())
-            {
-                StreamReader reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
-                Log.Info(responseFromServer);
-            }
-
-            response.Close();
-
             yield return 1;
         }
     }

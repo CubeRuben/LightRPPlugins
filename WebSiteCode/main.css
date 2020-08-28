@@ -1,22 +1,25 @@
+@font-face {
+    font-family: "Oliver's Barney";
+    src: url("data/oliver's barney.ttf") format("opentype");
+}
+
 body {
     margin: 0;
     background-color: black;
     overflow: hidden;
-    width: 10000px;
-    height: 10000px;
+    width: 3000px;
 }
 
 .map {
-    /*position: relative;*/
-    object-position: 100;
     display: flex;
     flex-direction: row;
-    top: 10px;
+    padding: 300px;
 }
 
 .facilityZone {
     border-spacing: 0;
-    margin: 10px;
+    margin: 25px;
+    box-shadow: 0 0px 10px white;
 }
 
 .facilityZone tr {
@@ -30,6 +33,33 @@ body {
     height: 50px;
 }
 
+.facilityZone td:hover {
+    background-color: rgba(255, 238, 0, 0.747);
+}
+
+.zoneLogo {
+    color: white;
+    font-family: "Oliver's Barney";
+    padding: auto 0px;
+}
+
 .userInterface {
     position: fixed;
+    z-index: 10;
+    background-color: grey;
+    width: 250px;
+    height: 100%;
+    top: 0;
+}
+
+.playerList {
+    margin: 5px;
+    padding: 10px;
+    font-family: monospace;
+    list-style: none;
+}
+
+.playerList:first-child {
+    font-weight: bold;
+    font-size: 20px;
 }

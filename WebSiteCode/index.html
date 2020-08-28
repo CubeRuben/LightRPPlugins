@@ -11,16 +11,28 @@
 
 <body>
 
-    <div class="map" onmousemove="mapMove(event)" onmousedown="mapPress(event)" onmouseup="mapUnpress(event)">
+    <div class="map" id="map" onmousemove="mapMove(event)" onmousedown="mapPress(event)" onmouseup="mapUnpress(event)" onmouseleave="mapUnpress(event)">
 
-        <table class="facilityZone lcz "></table>
-        <table class="facilityZone hcz "></table>
-        <table class="facilityZone ez "></table>
+        <div>
+            <h1 class="zoneLogo" align="center">Light Containment Zone</h1>
+            <table class="facilityZone lcz "></table>
+        </div>
+        <div>
+            <h1 class="zoneLogo" align="center">Heavy Containment Zone</h1>
+            <table class="facilityZone hcz "></table>
+        </div>
+        <div>
+            <h1 class="zoneLogo" align="center">Enterence Zone</h1>
+            <table class="facilityZone ez "></table>
+        </div>
 
     </div>
 
     <div class="userInterface ">
+        <ul class="playerList">
+            <li>Список игроков:</li>
 
+        </ul>
     </div>
 
     <script type="text/javascript " src="main.js"></script>

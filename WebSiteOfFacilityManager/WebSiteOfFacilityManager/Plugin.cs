@@ -2,15 +2,22 @@
 using Exiled.API.Enums;
 
 using System;
-using System.Reflection;
+using System.Net.Sockets;
 
-using HarmonyLib;
-using System.CodeDom;
+
+using UnityEngine;
+using System.Net;
 
 namespace WebSiteOfFacilityManager
 {
     public class WebSiteOfFacilityManagerPlugin : Plugin<Config>
     {
+        public class Map2D 
+        {
+            public Vector2 Minimal = new Vector2(100000, 100000);
+            public Room[,] Rooms = new Room[10, 10];
+        }
+
         #region Info
         public override string Name { get; } = "CubeRuben";
         public override string Prefix { get; } = "WebSiteFM";
@@ -22,27 +29,20 @@ namespace WebSiteOfFacilityManager
 
         EventHandlers EventHandlers;
 
-        
-        public static Room[,] LCZ = new Room[10, 10];
-        public static Room[,] HCZ = new Room[10, 10];
-        public static Room[,] EZ = new Room[10, 10];
+        public Map2D LC = new Map2D();
+        public Map2D HC = new Map2D();
+        public Map2D EZ = new Map2D();
 
-        public static FieldInfo AliasOfImagaGenerator;
-
-        Harmony Harmony;
-
-        public readonly FieldInfo MinimapField;
+        Socket WebServerSocket;
 
         public WebSiteOfFacilityManagerPlugin() 
         {
-            AliasOfImagaGenerator = typeof(ImageGenerator).GetField("alias", BindingFlags.Instance | BindingFlags.NonPublic);
+            WebServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            WebServerSocket.Bind(new IPEndPoint(long.Parse(Server.Host.IPAddress), Server.Port));
         }
 
         public override void OnEnabled()
         {
-            /*Harmony = new Harmony("com.cuberuben.imagegenerator");
-            Harmony.PatchAll();*/
-
             EventHandlers = new EventHandlers(this);
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
@@ -50,8 +50,6 @@ namespace WebSiteOfFacilityManager
 
         public override void OnDisabled()
         {
-            //Harmony.UnpatchAll();
-
             Exiled.Events.Handlers.Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
         }
     }

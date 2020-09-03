@@ -9,6 +9,8 @@ var ezTable;
 let MapIsMoving;
 let MousePos = { x: 0, y: 0 };
 
+var selectedRoom;
+
 window.ondragstart = function() { return false; }
 
 for (let i = 0; i < maps.length; i++) {
@@ -23,6 +25,7 @@ for (let i = 0; i < maps.length; i++) {
 
         for (let b = 0; b < mapSize; b++) {
             map[a][b] = document.createElement('td');
+            map[a][b].addEventListener('click', ev => { mapRoomClick(ev) });
             tableRaw.append(map[a][b]);
         }
     }
@@ -58,4 +61,17 @@ function mapPress(ev) {
 function mapUnpress(ev) {
     document.body.style.setProperty('cursor', 'default');
     MapIsMoving = false;
+}
+
+function mapRoomClick(ev) {
+    if (ev.currentTarget == selectedRoom) {
+        ev.currentTarget.style.backgroundColor = "";
+        selectedRoom = null;
+    } else {
+        if (selectedRoom != null) {
+            selectedRoom.style.backgroundColor = "";
+        }
+        selectedRoom = ev.currentTarget;
+        selectedRoom.style.backgroundColor = "rgba(0, 255, 0, 0.2)";
+    }
 }

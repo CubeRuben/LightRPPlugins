@@ -31,18 +31,45 @@ namespace BanWebhook
 
         public void OnBanned(BannedEventArgs ev)
         {
-            if (ev.Player == null) 
+            if (ev.Player == null)
             {
                 return;
             }
 
             Player admin = Player.Get(ev.Details.Issuer);
 
-            string message = "{\"embeds\":[{\"title\":\"Игрок забанен\",\"fields\":[{\"name\":\"Администратор\",\"value\":\"[" + admin.Nickname + "](" + GetSteamLink(admin.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Details.Reason == "" ? "Не указано" : ev.Details.Reason) + "\"},{\"name\":\"Дата и время бана\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"},{\"name\":\"Дата и время окончания бана\",\"value\":\"" + DateTime.FromBinary(ev.Details.Expires).AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
+            if (ev.Player.Nickname != ev.Details.Issuer)
+            {
+                Plugin.AddBanCount(admin.UserId);
+            }
 
-            Log.Info(message);
-            
+            string message;
+
+            if (admin == null)
+            {
+                message = "{\"embeds\":[{\"title\":\"Игрок забанен\",\"fields\":[{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Details.Reason == "" ? "Не указано" : ev.Details.Reason) + "\"},{\"name\":\"Дата и время бана\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"},{\"name\":\"Дата и время окончания бана\",\"value\":\"" + DateTime.FromBinary(ev.Details.Expires).AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
+            }
+            else
+            {
+                message = "{\"embeds\":[{\"title\":\"Игрок забанен\",\"fields\":[{\"name\":\"Администратор\",\"value\":\"[" + admin.Nickname + "](" + GetSteamLink(admin.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Details.Reason == "" ? "Не указано" : ev.Details.Reason) + "\"},{\"name\":\"Дата и время бана\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"},{\"name\":\"Дата и время окончания бана\",\"value\":\"" + DateTime.FromBinary(ev.Details.Expires).AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
+            }
+
             Timing.RunCoroutine(Plugin.SendWeebhook(message));
+        }
+
+        public void OnKicked(KickedEventArgs ev) 
+        {
+            if (ev.Player == null) 
+            {
+                return;
+            }
+
+            if (ev.Reason.StartsWith("You have been banned.")) 
+            {
+                return;
+            }
+
+            Timing.RunCoroutine(Plugin.SendWeebhook("{\"embeds\":[{\"title\":\"Игрок кикнут\",\"fields\":[{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Reason == "" ? "Не указано" : ev.Reason) + "\"},{\"name\":\"Дата и время кика\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}"));
         }
     }
 }

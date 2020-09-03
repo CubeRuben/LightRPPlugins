@@ -23,7 +23,7 @@ namespace SoundSystem
             switch (ev.Name) 
             {
                 case "test":
-                    MirrorIgnoranceServer.ForceDisconnectClient(NetworkConnection.);
+                    SoundSystemPlugin.PlayAudio(ev.Player.Position);
                     break;
                 case "destroy":
 

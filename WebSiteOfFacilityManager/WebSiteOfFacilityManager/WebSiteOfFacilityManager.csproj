@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B0C86C3-3511-4C2A-A796-8D61923E3A61}</ProjectGuid>
+    <ProjectGuid>{EE83EBEA-E954-46BC-AE0F-9DCAF127E41A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoundSystem</RootNamespace>
-    <AssemblyName>SoundSystem</AssemblyName>
+    <RootNamespace>WebSiteOfFacilityManager</RootNamespace>
+    <AssemblyName>WebSiteOfFacilityManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -40,10 +40,6 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="DissonanceVoip, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\DissonanceVoip.dll</HintPath>
-    </Reference>
     <Reference Include="Exiled.API">
       <HintPath>..\..\..\Users\Егор\AppData\Roaming\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
     </Reference>
@@ -55,9 +51,6 @@
     </Reference>
     <Reference Include="Exiled.Permissions">
       <HintPath>..\..\..\Users\Егор\AppData\Roaming\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Updater">
-      <HintPath>..\..\..\Users\Егор\AppData\Roaming\EXILED\Plugins\Exiled.Updater.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.dll</HintPath>
@@ -84,9 +77,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventHandlers.cs" />
-    <Compile Include="Plugin.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="EventHandlers.cs" />
+    <Compile Include="Patch.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

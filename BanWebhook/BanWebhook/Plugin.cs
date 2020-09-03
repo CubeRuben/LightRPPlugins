@@ -26,7 +26,7 @@ namespace BanWebhook
 
         EventHandlers EventHandlers;
 
-        public BanWebhookPlugin() 
+        public BanWebhookPlugin()
         {
         }
 
@@ -35,13 +35,57 @@ namespace BanWebhook
             EventHandlers = new EventHandlers(this);
 
             Exiled.Events.Handlers.Player.Banned += EventHandlers.OnBanned;
+            Exiled.Events.Handlers.Player.Kicked += EventHandlers.OnKicked;
         }
 
         public override void OnDisabled()
         {
             Exiled.Events.Handlers.Player.Banned -= EventHandlers.OnBanned;
+            Exiled.Events.Handlers.Player.Kicked -= EventHandlers.OnKicked;
 
             EventHandlers = null;
+        }
+
+        public void AddBanCount(string id) 
+        {
+            string file = File.ReadAllText(Config.PathOfAdminBansCount);
+
+            string[] data = file.Split('\n');
+
+            for (int i = 0; i < data.Length; i++) 
+            {
+                string[] playerData = data[i].Split(':');
+                if (playerData[0] == id) 
+                {
+                    int count = int.Parse(playerData[1]);
+                    count++;
+
+                    string final = "";
+                    for (int a = 0; a < data.Length; a++)
+                    {
+                        if (i != a)
+                        {
+                            final += data[a];
+                        }
+                        else 
+                        {
+                            final += playerData[0] + ":" + count.ToString();
+                        }
+
+                        if (a + 1 != data.Length) 
+                        {
+                            final += "\n";
+                        }
+                    }
+
+                    File.WriteAllText(Config.PathOfAdminBansCount, final);
+                    return;
+                }
+            }
+
+            file += "\n" + id + ":1";
+
+            File.WriteAllText(Config.PathOfAdminBansCount, file);
         }
 
         public IEnumerator<float> SendWeebhook(string message)

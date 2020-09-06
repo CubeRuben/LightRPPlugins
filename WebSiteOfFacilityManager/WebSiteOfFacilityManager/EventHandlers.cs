@@ -35,19 +35,26 @@ namespace WebSiteOfFacilityManager
                 switch (room.Zone)
                 {
                     case ZoneType.Entrance:
-                        Plugin.EZ.Minimal.x = Math.Min(Plugin.EZ.Minimal.x, room.Position.x);
-                        Plugin.EZ.Minimal.y = Math.Min(Plugin.EZ.Minimal.y, room.Position.z);
+                        WebSiteOfFacilityManagerPlugin.EZ.Minimal.x = Math.Min(WebSiteOfFacilityManagerPlugin.EZ.Minimal.x, room.Position.x);
+                        WebSiteOfFacilityManagerPlugin.EZ.Minimal.y = Math.Min(WebSiteOfFacilityManagerPlugin.EZ.Minimal.y, room.Position.z);
                         break;
                     case ZoneType.HeavyContainment:
-                        Plugin.HC.Minimal.x = Math.Min(Plugin.HC.Minimal.x, room.Position.x);
-                        Plugin.HC.Minimal.y = Math.Min(Plugin.HC.Minimal.y, room.Position.z);
+                        WebSiteOfFacilityManagerPlugin.HC.Minimal.x = Math.Min(WebSiteOfFacilityManagerPlugin.HC.Minimal.x, room.Position.x);
+                        WebSiteOfFacilityManagerPlugin.HC.Minimal.y = Math.Min(WebSiteOfFacilityManagerPlugin.HC.Minimal.y, room.Position.z);
                         break;
                     case ZoneType.LightContainment:
-                        Plugin.LC.Minimal.x = Math.Min(Plugin.LC.Minimal.x, room.Position.x);
-                        Plugin.LC.Minimal.y = Math.Min(Plugin.LC.Minimal.y, room.Position.z);
+                        WebSiteOfFacilityManagerPlugin.LC.Minimal.x = Math.Min(WebSiteOfFacilityManagerPlugin.LC.Minimal.x, room.Position.x);
+                        WebSiteOfFacilityManagerPlugin.LC.Minimal.y = Math.Min(WebSiteOfFacilityManagerPlugin.LC.Minimal.y, room.Position.z);
                         break;
                 }
             }
+
+            WebSiteOfFacilityManagerPlugin.EZ.Minimal.x -= gridSize;
+            WebSiteOfFacilityManagerPlugin.EZ.Minimal.y -= gridSize;
+            WebSiteOfFacilityManagerPlugin.HC.Minimal.x -= gridSize;
+            WebSiteOfFacilityManagerPlugin.HC.Minimal.y -= gridSize;
+            WebSiteOfFacilityManagerPlugin.LC.Minimal.x -= gridSize;
+            WebSiteOfFacilityManagerPlugin.LC.Minimal.y -= gridSize;
 
             Log.Info("Minimal vectors founded");
 
@@ -56,13 +63,13 @@ namespace WebSiteOfFacilityManager
                 switch (room.Zone)
                 {
                     case ZoneType.Entrance:
-                        Plugin.EZ.Rooms[(int)((room.Position.x - Plugin.EZ.Minimal.x) / gridSize), (int)((room.Position.z - Plugin.EZ.Minimal.y) / gridSize)] = room;
+                        WebSiteOfFacilityManagerPlugin.EZ.Rooms[(int)Math.Round((room.Position.x - WebSiteOfFacilityManagerPlugin.EZ.Minimal.x) / gridSize), (int)Math.Round((room.Position.z - WebSiteOfFacilityManagerPlugin.EZ.Minimal.y) / gridSize)] = room;
                         break;
                     case ZoneType.HeavyContainment:
-                        Plugin.HC.Rooms[(int)((room.Position.x - Plugin.HC.Minimal.x) / gridSize), (int)((room.Position.z - Plugin.HC.Minimal.y) / gridSize)] = room;
+                        WebSiteOfFacilityManagerPlugin.HC.Rooms[(int)Math.Round((room.Position.x - WebSiteOfFacilityManagerPlugin.HC.Minimal.x) / gridSize), (int)Math.Round((room.Position.z - WebSiteOfFacilityManagerPlugin.HC.Minimal.y) / gridSize)] = room;
                         break;
                     case ZoneType.LightContainment:
-                        Plugin.LC.Rooms[(int)((room.Position.x - Plugin.LC.Minimal.x) / gridSize), (int)((room.Position.z - Plugin.LC.Minimal.y) / gridSize)] = room;
+                        WebSiteOfFacilityManagerPlugin.LC.Rooms[(int)Math.Round((room.Position.x - WebSiteOfFacilityManagerPlugin.LC.Minimal.x) / gridSize), (int)Math.Round((room.Position.z - WebSiteOfFacilityManagerPlugin.LC.Minimal.y) / gridSize)] = room;
                         break;
                 }
             }
@@ -75,7 +82,7 @@ namespace WebSiteOfFacilityManager
                 string data = "";
                 for (int y = 0; y < 10; y++)
                 {
-                    data += Convert.ToInt32(Plugin.LC.Rooms[x, y]);
+                    data += Convert.ToInt32(WebSiteOfFacilityManagerPlugin.LC.Rooms[x, y]);
                 }
                 Log.Info(data);
             }

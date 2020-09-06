@@ -75,3 +75,14 @@ function mapRoomClick(ev) {
         selectedRoom.style.backgroundColor = "rgba(0, 255, 0, 0.2)";
     }
 }
+
+function httpGet(url) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
+
+httpGet("lczGrid");
+httpGet("hczGrid");
+httpGet("ezGrid");

@@ -93,7 +93,7 @@ namespace WebSiteOfFacilityManager
 
             Log.Info("Starting http server");
 
-            Address = "http://93.157.16.114:" + (Server.Port + 1000) + "/";
+            Address = "http://localhost:" + (Server.Port + 1000) + "/";
 
             HttpServer = new HttpListener();
             HttpServer.Prefixes.Add(Address);

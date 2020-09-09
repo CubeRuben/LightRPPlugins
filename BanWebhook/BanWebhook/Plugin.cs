@@ -35,13 +35,13 @@ namespace BanWebhook
             EventHandlers = new EventHandlers(this);
 
             Exiled.Events.Handlers.Player.Banned += EventHandlers.OnBanned;
-            Exiled.Events.Handlers.Player.Kicked += EventHandlers.OnKicked;
+            Exiled.Events.Handlers.Player.Kicking += EventHandlers.OnKicking;
         }
 
         public override void OnDisabled()
         {
             Exiled.Events.Handlers.Player.Banned -= EventHandlers.OnBanned;
-            Exiled.Events.Handlers.Player.Kicked -= EventHandlers.OnKicked;
+            Exiled.Events.Handlers.Player.Kicking -= EventHandlers.OnKicking;
 
             EventHandlers = null;
         }

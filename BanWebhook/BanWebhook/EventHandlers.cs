@@ -57,9 +57,9 @@ namespace BanWebhook
             Timing.RunCoroutine(Plugin.SendWeebhook(message));
         }
 
-        public void OnKicked(KickedEventArgs ev) 
+        public void OnKicking(KickingEventArgs ev) 
         {
-            if (ev.Player == null) 
+            if (ev.Target == null) 
             {
                 return;
             }
@@ -69,7 +69,18 @@ namespace BanWebhook
                 return;
             }
 
-            Timing.RunCoroutine(Plugin.SendWeebhook("{\"embeds\":[{\"title\":\"Игрок кикнут\",\"fields\":[{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Player.Nickname + "](" + GetSteamLink(ev.Player.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Reason == "" ? "Не указано" : ev.Reason) + "\"},{\"name\":\"Дата и время кика\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}"));
+            string message;
+
+            if (ev.Issuer == null)
+            {
+                message = "{\"embeds\":[{\"title\":\"Игрок кикнут\",\"fields\":[{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Target.Nickname + "](" + GetSteamLink(ev.Target.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Reason == "" ? "Не указано" : ev.Reason) + "\"},{\"name\":\"Дата и время кика\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
+            }
+            else
+            {
+                message = "{\"embeds\":[{\"title\":\"Игрок кикнут\",\"fields\":[{\"name\":\"Администратор\",\"value\":\"[" + ev.Issuer.Nickname + "](" + GetSteamLink(ev.Issuer.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Нарушитель\",\"value\":\"[" + ev.Target.Nickname + "](" + GetSteamLink(ev.Target.AuthenticationToken) + ")\",\"inline\":\"true\"},{\"name\":\"Причина\",\"value\":\"" + (ev.Reason == "" ? "Не указано" : ev.Reason) + "\"},{\"name\":\"Дата и время кика\",\"value\":\"" + DateTime.UtcNow.AddHours(3).ToString("dd.MM.yy HH:mm") + " (МСК)\",\"inline\":\"true\"}]}]}";
+            }
+
+            Timing.RunCoroutine(Plugin.SendWeebhook(message));
         }
     }
 }

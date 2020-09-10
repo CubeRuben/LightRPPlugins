@@ -24,10 +24,13 @@ namespace BanWebhook
         public override Version RequiredExiledVersion { get; } = new Version(2, 1, 0);
         #endregion
 
-        EventHandlers EventHandlers;
+        public static BanWebhookPlugin Singleton;
+
+        public EventHandlers EventHandlers;
 
         public BanWebhookPlugin()
         {
+            Singleton = this;
         }
 
         public override void OnEnabled()

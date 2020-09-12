@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Interfaces;
 
-namespace OfflineBans
+namespace AdminAlarm
 {
     public class Config : IConfig
     {

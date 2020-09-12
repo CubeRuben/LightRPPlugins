@@ -90,10 +90,11 @@ namespace WebSiteOfFacilityManager
             EventHandlers = new EventHandlers(this);
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+            Exiled.Events.Handlers.Server.SendingRemoteAdminCommand += EventHandlers.OnSendingRemoteAdminCommand;
 
             Log.Info("Starting http server");
 
-            Address = "http://localhost:" + (Server.Port + 1000) + "/";
+            Address = "http://93.157.16.55:" + (Server.Port + 1000) + "/";
 
             HttpServer = new HttpListener();
             HttpServer.Prefixes.Add(Address);
@@ -111,8 +112,9 @@ namespace WebSiteOfFacilityManager
             Exiled.Events.Handlers.Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
         }
 
-        IEnumerator<float> ReadWebSiteData() 
+        public IEnumerator<float> ReadWebSiteData() 
         {
+            UrlToWebSiteData.Clear();
             UrlToWebSiteData.Add(Address, File.ReadAllText(Config.WebSiteDataPath + "index.html"));
             UrlToWebSiteData.Add(Address + "main.css", File.ReadAllText(Config.WebSiteDataPath + "main.css"));
             UrlToWebSiteData.Add(Address + "main.js", File.ReadAllText(Config.WebSiteDataPath + "main.js"));
@@ -120,7 +122,10 @@ namespace WebSiteOfFacilityManager
             yield return 1;
         }
 
-
+        static bool InRange(Vector3 position, Vector3 point1, Vector3 point2) 
+        {
+            return position.x > point1.x && position.y > point1.y && position.z > point1.z && position.x < point2.x && position.y < point2.y && position.z < point2.z;
+        }
 
         public static void ListenerCallback(IAsyncResult result)
         {
@@ -157,17 +162,47 @@ namespace WebSiteOfFacilityManager
                 {
                     responseString = EZ.ToString();
                 }
-                else if (url.StartsWith(Address + "roomsImages/") && !url.Contains("..")) 
+                else if (url == Address + "getInfo") 
+                {
+                    foreach (Player player in Player.Dictionary.Values) 
+                    {
+                        if (player.CurrentRoom == null)  
+                        {
+                            continue;
+                        }
+
+                        string playerData = $"ply {player.Nickname} {player.RoleColor.r} {player.RoleColor.g} {player.RoleColor.b} {player.Rotations.y} ";
+
+                        switch (player.CurrentRoom.Zone)
+                        {
+                            case ZoneType.LightContainment:
+                                playerData += $"LC {(player.Position.x - LC.Minimal.x + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize} {(player.Position.z - LC.Minimal.y + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize}";
+                                break;
+                            case ZoneType.HeavyContainment:
+                                playerData += $"HC {(player.Position.x - HC.Minimal.x + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize} {(player.Position.z - HC.Minimal.y + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize}";
+                                break;
+                            case ZoneType.Entrance:
+                                playerData += $"EZ {(player.Position.x - EZ.Minimal.x + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize} {(player.Position.z - EZ.Minimal.y + ImageGenerator.ZoneGenerators[0].gridSize / 2) / ImageGenerator.ZoneGenerators[0].gridSize}";
+                                break;
+                            default:
+                                continue;
+                        }
+
+                        playerData += "\n";
+                        responseString += playerData;
+                    }
+                } 
+                else if (url.StartsWith(Address + "roomsImages/") && !url.Contains(".."))
                 {
                     try
                     {
                         buffer = File.ReadAllBytes(Config.WebSiteDataPath + url.Substring(Address.Length, url.Length - Address.Length));
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         Log.Info("Unable load image: " + ex);
                     }
-                } 
+                }
                 else
                 {
                     Log.Info("Requested not registred file");

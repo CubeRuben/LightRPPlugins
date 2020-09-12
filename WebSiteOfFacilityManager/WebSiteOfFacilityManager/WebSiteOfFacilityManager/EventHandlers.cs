@@ -29,7 +29,7 @@ namespace WebSiteOfFacilityManager
             Log.Info("2D map creation started");
 
             float gridSize = ImageGenerator.ZoneGenerators[0].gridSize;
-
+            Log.Info(gridSize);
             foreach (Room room in Map.Rooms) 
             {
                 switch (room.Zone)
@@ -89,6 +89,16 @@ namespace WebSiteOfFacilityManager
 
             Log.Info("Debug log ended");
             yield return 1; 
+        }
+
+        public void OnSendingRemoteAdminCommand(SendingRemoteAdminCommandEventArgs ev) 
+        {
+            switch (ev.Name) 
+            {
+                case "reloaddata":
+                    Timing.RunCoroutine(Plugin.ReadWebSiteData());
+                    break;
+            }
         }
     }
 }
